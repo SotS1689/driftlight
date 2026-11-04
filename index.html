@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW31K785WW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-YW31K785WW');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+    <title>Driftlight</title>
+    <meta name="description" content="A slow, beautiful sky-sailing game. Pilot a little skiff over a sea of clouds, explore floating islands, and relight the lighthouses of the Amberreach.">
+    <meta name="theme-color" content="#f3c7b5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#2b2a4a" media="(prefers-color-scheme: dark)">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Driftlight">
+    <meta property="og:description" content="A slow voyage over a sea of clouds. Explore floating islands and relight the lighthouses of the Amberreach.">
+    <meta property="og:image" content="https://sots1689.github.io/driftlight/og.png">
+    <meta property="og:url" content="https://sots1689.github.io/driftlight/">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icons/icon-192.png" type="image/png">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <canvas id="game" aria-label="The Amberreach, a sea of clouds with floating islands"></canvas>
+
+    <header class="topbar">
+        <div class="brand">Driftlight</div>
+        <div class="tools">
+            <button class="icon-btn" id="install" hidden aria-label="Install app" title="Install app">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 19h14"/></svg>
+            </button>
+            <button class="icon-btn" id="btn-map" aria-label="Map (M)" title="Map (M)">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zm0 0v14m6-12v14"/></svg>
+            </button>
+            <button class="icon-btn" id="btn-journal" aria-label="Journal (J)" title="Journal (J)">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 013 3v13H8a3 3 0 01-3-3V4zm0 13a3 3 0 013-3h11M9 8h6"/></svg>
+            </button>
+            <button class="icon-btn" id="btn-sound" aria-label="Sound on" title="Sound">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path class="snd-on" d="M4 9v6h4l5 4V5L8 9H4zm12 0a4 4 0 010 6m2-9a8 8 0 010 12"/><path class="snd-off" d="M4 9v6h4l5 4V5L8 9H4zm12 1l5 5m0-5l-5 5"/></svg>
+            </button>
+            <button class="icon-btn" id="btn-theme" aria-label="Switch light or dark panels" title="Light / dark">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg>
+            </button>
+            <button class="icon-btn" id="btn-about" aria-label="About and privacy" title="About and privacy">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.5"/></svg>
+            </button>
+            <div class="support-wrap">
+                <a class="icon-btn heart" id="support" href="https://buymeacoffee.com/taylordrummond"
+                   target="_blank" rel="noopener" aria-label="Support" title="Support">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </a>
+                <div id="support-callout" role="dialog" aria-label="Support this project">
+                    <div class="support-callout-arrow"></div>
+                    <p class="support-callout-title">A quick note &mdash;</p>
+                    <p class="support-callout-body">This project is built and maintained in spare time so that anyone can use it for free. If it's been a help to you, would you consider supporting it? Every bit keeps it running for the next person too.</p>
+                    <div class="support-callout-actions">
+                        <a href="https://buymeacoffee.com/taylordrummond" target="_blank" rel="noopener"
+                           class="support-callout-btn support-callout-btn-primary" data-support="acted">Yes</a>
+                        <button type="button" class="support-callout-btn support-callout-btn-secondary" data-support="later">Maybe later</button>
+                        <button type="button" class="support-callout-btn support-callout-btn-text" data-support="forever">Don't ask again</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="hud" id="hud" hidden>
+        <p class="objective" id="objective"></p>
+        <div class="chips">
+            <span class="chip" title="Lighthouses lit"><b id="c-lit">0</b>/3 lights</span>
+            <span class="chip" title="Wonders discovered"><b id="c-disc">0</b>/8 wonders</span>
+            <span class="chip" title="Drift-seeds gathered"><b id="c-seed">0</b>/24 seeds</span>
+        </div>
+    </div>
+
+    <div class="song" id="song" hidden aria-live="polite">
+        <div class="song-dots" id="song-dots"></div>
+        <p class="song-text" id="song-text"></p>
+        <button class="link-btn" id="song-replay" type="button">Hear it again</button>
+    </div>
+
+    <button class="prompt" id="prompt" type="button" hidden><kbd>E</kbd><span id="prompt-text"></span></button>
+
+    <div class="toast" id="toast" aria-live="polite"><h2 id="toast-title"></h2><p id="toast-line"></p></div>
+
+    <!-- Title -->
+    <section class="title-screen" id="title-screen">
+        <h1>Driftlight</h1>
+        <p class="tag">A slow voyage over the Amberreach</p>
+        <div class="title-actions">
+            <button class="btn primary" id="btn-begin" type="button">Begin</button>
+            <button class="btn link-btn" id="btn-restart" type="button" hidden>Start over</button>
+        </div>
+        <p class="controls">Steer with the arrow keys or WASD, or tap where you'd like to sail.<br>
+            Press <kbd>E</kbd> or tap the glowing prompt to interact. <kbd>M</kbd> map, <kbd>J</kbd> journal.<br>Sound is part of the journey.</p>
+    </section>
+
+    <dialog id="note-card" class="card parchment">
+        <h2 id="note-title"></h2>
+        <p id="note-text"></p>
+        <form method="dialog"><button class="btn primary">Close</button></form>
+    </dialog>
+
+    <dialog id="map-modal" class="card wide">
+        <div class="card-head"><h2>Chart of the Amberreach</h2><span id="map-charted"></span></div>
+        <canvas id="map-canvas" width="900" height="900" aria-label="Map of the explored sky"></canvas>
+        <form method="dialog"><button class="btn primary">Close</button></form>
+    </dialog>
+
+    <dialog id="journal-modal" class="card">
+        <h2>Journal</h2>
+        <div id="journal-body"></div>
+        <form method="dialog"><button class="btn primary">Close</button></form>
+    </dialog>
+
+    <dialog id="about-modal" class="card">
+        <h2>About Driftlight</h2>
+        <p>A quiet game about sailing a little skiff over a sea of clouds. There is no timer and nothing can hurt you. Explore, gather drift-seeds, read the old keeper's stones, and wake the three dark lighthouses of the Amberreach.</p>
+        <h3>Controls</h3>
+        <p>Arrow keys or WASD to sail, or tap or click where you'd like to go (hold to steer). Press <kbd>E</kbd>, Space, or tap the glowing prompt to interact. <kbd>M</kbd> opens the map, <kbd>J</kbd> the journal. Your voyage is saved on this device.</p>
+        <h3>Privacy</h3>
+        <p><strong>Privacy.</strong> Driftlight uses Google Analytics to count visits and see which features get used, so the app can be improved. You don't need an account, and nothing you type into the app is collected. Your data will never be sold or given away.</p>
+        <p class="small"><a href="https://buymeacoffee.com/taylordrummond" target="_blank" rel="noopener">Support this project</a></p>
+        <form method="dialog"><button class="btn primary">Close</button></form>
+    </dialog>
+
+    <dialog id="ending-modal" class="card parchment">
+        <h2>The Amberreach is awake</h2>
+        <p id="ending-text"></p>
+        <ul class="stats" id="ending-stats"></ul>
+        <form method="dialog"><button class="btn primary">Keep drifting</button></form>
+    </dialog>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
